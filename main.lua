@@ -5,9 +5,9 @@ function love.load()
     sti = require('libraries/sti')
     wf = require('libraries/windfield')
 
-    require('map')
-    require('player')
-    require('camera')
+    require('src/map')
+    require('src/player')
+    require('src/camera')
 
     -- Initialize the world
     world = wf.newWorld(0, 0)
