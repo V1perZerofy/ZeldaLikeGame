@@ -9,6 +9,9 @@ function loadPlayer()
     player.spriteSheet = love.graphics.newImage('sprites/characters.png')
     player.grid = anim8.newGrid(16, 16, player.spriteSheet:getWidth(), player.spriteSheet:getHeight())
 
+    player.heartSheet = love.graphics.newImage('sprites/Hearts.png')
+    player.grid = anim8.newGrid(16, 16, player.heartSheet:getWidth(), player.heartSheet:getHeight())
+
     player.animations = {}
     player.animations.down = anim8.newAnimation(player.grid('4-6', 1), 0.13)
     player.animations.left = anim8.newAnimation(player.grid('4-6', 2), 0.13)
@@ -57,4 +60,14 @@ end
 
 function drawPlayer()
     player.anim:draw(player.spriteSheet, player.x, player.y, nil, 4, nil, 8, 11.5)
+    addHeart(64, 64)
+end
+
+-- Function that takes a heart picture and places it as often as th player.health is high
+function addHeart(x, y)
+    if player.health > 0 then
+        heart.x = x
+        heart.y = y
+        heart.spriteSheet =
+    end
 end
