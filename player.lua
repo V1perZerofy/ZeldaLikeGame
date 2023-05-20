@@ -5,6 +5,7 @@ function loadPlayer()
     player.x = 400
     player.y = 200
     player.speed = 300
+    player.health = 3
     player.spriteSheet = love.graphics.newImage('sprites/characters.png')
     player.grid = anim8.newGrid(16, 16, player.spriteSheet:getWidth(), player.spriteSheet:getHeight())
 
@@ -44,7 +45,7 @@ function updatePlayer(dt)
 
     player.collider:setLinearVelocity(vx, vy)
 
-    if not isMoving then
+    if isMoving == false then
         player.anim:gotoFrame(2) 
     end
 
