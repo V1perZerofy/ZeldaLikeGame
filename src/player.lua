@@ -24,7 +24,7 @@ end
 function updatePlayer(dt)
     local isMoving = false
     local vx, vy = 0, 0
-
+    --movement
     if love.keyboard.isDown("w") then
         vy = -player.speed
         player.anim = player.animations.up
@@ -62,7 +62,6 @@ function drawPlayer()
     player.anim:draw(player.spriteSheet, player.x, player.y, nil, 4, nil, 8, 11.5)
     --addHeart(64, 64)
 end
-
 -- Function that takes a heart picture and places it as often as th player.health is high
 --function addHeart(x, y)
 --    if player.health > 0 then
