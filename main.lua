@@ -8,6 +8,7 @@ function love.load()
     require('src/map')
     require('src/player')
     require('src/camera')
+    require('src/enemy')
 
     -- Initialize the world
     world = wf.newWorld(0, 0)
@@ -20,6 +21,12 @@ function love.load()
 
     -- Initialize the camera
     loadCamera()
+
+    -- Initialize the hearts
+    loadHearts()
+
+    -- Initialize the enemies
+    loadEnemy()
 end
 
 function love.update(dt)
@@ -33,4 +40,5 @@ function love.draw()
     drawMapLayers()
     drawPlayer()
     cam:detach()
+    drawHealthBar()
 end
