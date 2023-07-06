@@ -1,4 +1,33 @@
-require('src/camera')
+mapCollider = require('src/map')
+function loadPlayer()
+    -- This function loads a player into the game. The player is represented by a rectangle
+    -- collider with a sprite on top. The player can be moved around using the wasd keys.
+    --
+    -- The player's collider has a fixed rotation, meaning it can't rotate. The player
+    -- sprite is made up of a sprite sheet that is 16x16 pixels. The player has 9 health.
+    -- The player's animations are stored in a table, and each animation is an anim8
+    -- animation. The player's current animation is stored in a variable.
+
+    player = {}
+    player.collider = world:newBSGRectangleCollider(400, 200, 40, 64, 9)
+    player.collider:setFixedRotation(true)
+    player.x = 400
+    player.y = 200
+    player.speed = 300
+    player.health = 9
+    player.spriteSheet = love.graphics.newImage('sprites/characters.png')
+    player.grid = anim8.newGrid(16, 16, player.spriteSheet:getWidth(), player.spriteSheet:getHeight())
+
+    player.animations = {}
+    -- 0.13 seconds between frames
+    player.animations.down = anim8.newAnimation(player.grid('4-6', 1), 0.13)
+    player.animations.left = anim8.newAnimation(player.grid('4-6', 2), 0.13)
+    player.animations.right = anim8.newAnimation(player.grid('4-6', 3), 0.13)
+    player.animations.up = anim8.newAnimation(player.grid('4-6', 4), 0.13)
+
+    player.anim = player.animations.down
+end
+
 function loadPlayer()
     player = {}
     player.collider = world:newBSGRectangleCollider(400, 200, 40, 64, 9)
@@ -11,10 +40,11 @@ function loadPlayer()
     player.grid = anim8.newGrid(16, 16, player.spriteSheet:getWidth(), player.spriteSheet:getHeight())
 
     player.animations = {}
-    player.animations.down = anim8.newAnimation(player.grid('4-6', 1), 0.13)
-    player.animations.left = anim8.newAnimation(player.grid('4-6', 2), 0.13)
-    player.animations.right = anim8.newAnimation(player.grid('4-6', 3), 0.13)
-    player.animations.up = anim8.newAnimation(player.grid('4-6', 4), 0.13)
+    -- 0.13 seconds between frames
+    player.animations.down = anim8.newAnimation(player.grid('4-6', 1), 0.2)
+    player.animations.left = anim8.newAnimation(player.grid('4-6', 2), 0.2)
+    player.animations.right = anim8.newAnimation(player.grid('4-6', 3), 0.2)
+    player.animations.up = anim8.newAnimation(player.grid('4-6', 4), 0.2)
 
     player.anim = player.animations.down
 end
@@ -69,6 +99,11 @@ function updatePlayer(dt)
     elseif player.y + 16 > gameMap.height * gameMap.tileheight then
         player.y = gameMap.height * gameMap.tileheight - 16
     end
+
+    --check if player hits bush collider in map.lua
+    mapCollider.checkBush(player.x, player.y)
+    
+
 end
 
 function drawPlayer()
@@ -109,11 +144,24 @@ end
 --no sprite sheet
 --red
 function drawHealthBar()
+    if player == nil then
+        return
+    end
+
+    if player.health == nil then
+        return
+    end
+
+    local x = 16
+    local y = 16
+    local width = 200
+    local height = 20
+
     love.graphics.setColor(0, 0, 0)
-    love.graphics.rectangle('fill', 16, 16, 200, 20)
+    love.graphics.rectangle('fill', x, y, width, height)
     love.graphics.setColor(1, 0, 0)
-    love.graphics.rectangle('fill', 16, 16, player.health * 2, 20)
+    love.graphics.rectangle('fill', x, y, player.health * 2, height)
     love.graphics.setColor(1, 1, 1)
-    love.graphics.rectangle('line', 16, 16, 200, 20)
-    love.graphics.print(player.health, 19, 19)
+    love.graphics.rectangle('line', x, y, width, height)
+    love.graphics.print(player.health, x + 3, y + 3)
 end

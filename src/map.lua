@@ -1,5 +1,5 @@
 function loadMap()
-    gameMap = sti('maps/map.lua')
+    gameMap = sti('maps/testMap.lua')
     loadWalls()
 end
 
@@ -19,6 +19,27 @@ function loadWalls()
             end
             if wall then
                 wall:setType('static')
+            end
+        end
+    end
+end
+
+function loadBushes()
+    if gameMap.layers["Bushes"] then
+        for i, obj in pairs(gameMap.layers["Bushes"].objects) do
+            local bush
+            if obj.shape == "rectangle" then
+                bush = world:newRectangleCollider(obj.x, obj.y, obj.width, obj.height)
+            elseif obj.shape == "polygon" then
+                local vertices = {}
+                for j, vertex in ipairs(obj.polygon) do
+                    table.insert(vertices, vertex.x)
+                    table.insert(vertices, vertex.y)
+                end
+                bush = world:newPolygonCollider(vertices)
+            end
+            if bush then
+                bush:setType('static')
             end
         end
     end
