@@ -1,36 +1,6 @@
-mapCollider = require('src/map')
-function loadPlayer()
-    -- This function loads a player into the game. The player is represented by a rectangle
-    -- collider with a sprite on top. The player can be moved around using the wasd keys.
-    --
-    -- The player's collider has a fixed rotation, meaning it can't rotate. The player
-    -- sprite is made up of a sprite sheet that is 16x16 pixels. The player has 9 health.
-    -- The player's animations are stored in a table, and each animation is an anim8
-    -- animation. The player's current animation is stored in a variable.
-
-    player = {}
-    player.collider = world:newBSGRectangleCollider(400, 200, 40, 64, 9)
-    player.collider:setFixedRotation(true)
-    player.x = 400
-    player.y = 200
-    player.speed = 300
-    player.health = 9
-    player.spriteSheet = love.graphics.newImage('sprites/characters.png')
-    player.grid = anim8.newGrid(16, 16, player.spriteSheet:getWidth(), player.spriteSheet:getHeight())
-
-    player.animations = {}
-    -- 0.13 seconds between frames
-    player.animations.down = anim8.newAnimation(player.grid('4-6', 1), 0.13)
-    player.animations.left = anim8.newAnimation(player.grid('4-6', 2), 0.13)
-    player.animations.right = anim8.newAnimation(player.grid('4-6', 3), 0.13)
-    player.animations.up = anim8.newAnimation(player.grid('4-6', 4), 0.13)
-
-    player.anim = player.animations.down
-end
-
 function loadPlayer()
     player = {}
-    player.collider = world:newBSGRectangleCollider(400, 200, 40, 64, 9)
+    player.collider = world:newBSGRectangleCollider(400, 200, 40, 40, 9)
     player.collider:setFixedRotation(true)
     player.x = 400
     player.y = 200
@@ -80,8 +50,8 @@ function updatePlayer(dt)
         player.collider:setLinearVelocity(0, 0)
     end
 
-    player.x = player.collider:getX() - 8
-    player.y = player.collider:getY() - 11.5
+    player.x = player.collider:getX() -- 8
+    player.y = player.collider:getY() -- 11.5
     -- no movement player stays on the same frame
     if dx == 0 and dy == 0 then
         player.anim:gotoFrame(2)
@@ -101,13 +71,11 @@ function updatePlayer(dt)
     end
 
     --check if player hits bush collider in map.lua
-    mapCollider.checkBush(player.x, player.y)
-    
-
 end
 
 function drawPlayer()
     player.anim:draw(player.spriteSheet, player.x, player.y, nil, 4, nil, 8, 11.5)
+    --world:draw()
 end
 
 --function that takes health and draws it as hearts for sprites/Hearts.png
