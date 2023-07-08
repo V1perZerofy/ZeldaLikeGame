@@ -14,7 +14,7 @@ function love.load()
     world = wf.newWorld(0, 0)
 
     -- Initialize the map
-    loadMap()
+    loadMap('maps/testMap.lua')
 
     -- Initialize the player
     loadPlayer()
@@ -41,4 +41,5 @@ function love.draw()
     drawPlayer()
     cam:detach()
     drawHealthBar()
+    --drawHearts()
 end

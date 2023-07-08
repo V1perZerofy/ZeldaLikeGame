@@ -17,6 +17,9 @@ function loadPlayer()
     player.animations.up = anim8.newAnimation(player.grid('4-6', 4), 0.2)
 
     player.anim = player.animations.down
+
+    local doors = require("src/map")  -- The 'door' here refers to the door.lua file
+    local houseentry = doors.loadDoor()  -- Access the loadDoor function and get the doors
 end
 
 function updatePlayer(dt)
@@ -70,12 +73,17 @@ function updatePlayer(dt)
         player.y = gameMap.height * gameMap.tileheight - 16
     end
 
-    --check if player hits bush collider in map.lua
+    --stop animation when player hits collider
+    if player.collider:enter('Solid') then
+        player.anim:gotoFrame(2)
+    end
+
+    enterHouse(doors)
 end
 
 function drawPlayer()
     player.anim:draw(player.spriteSheet, player.x, player.y, nil, 4, nil, 8, 11.5)
-    --world:draw()
+    world:draw()
 end
 
 --function that takes health and draws it as hearts for sprites/Hearts.png
@@ -132,4 +140,18 @@ function drawHealthBar()
     love.graphics.setColor(1, 1, 1)
     love.graphics.rectangle('line', x, y, width, height)
     love.graphics.print(player.health, x + 3, y + 3)
+end
+
+function enterHouse(doors)
+    for i, door in ipairs(doors) do
+        if player.collider:collidesWith(door) then
+            love.graphics.print("Press E to enter", 400, 300)
+            -- If you want to do something when the E key is pressed:
+            if love.keyboard.isDown('e') then
+                -- Insert your logic here
+                print("Entered the house!")
+            end
+            break  -- If you want to stop checking after the first collision
+        end
+    end
 end
