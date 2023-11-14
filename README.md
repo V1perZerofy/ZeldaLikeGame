@@ -10,10 +10,6 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 ## License 
 CC BY-NC-SA 4.0
 https://creativecommons.org/licenses/by-nc-sa/4.0/
-## Contact
-If you have any questions or comments, please contact me at:
-Reddit: V1per_Zero
-
 
 
 
